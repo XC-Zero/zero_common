@@ -1,0 +1,33 @@
+version: '3'
+services:
+  dremio_master:
+    restart: unless-stopped
+    image: dremio/dremio-oss:latest
+    env_file: ./config/master/dremio-env
+    hostname: dremio_master
+    container_name: dremio_master
+    volumes:
+      - ./master_data:/opt/dremio/data
+      - ./config/master:/opt/dremio/conf
+    ports:
+      - "9047:9047"
+      - "31010:31010"
+      - "32010:32010"
+      - "45678:45678"
+    network_mode: host
+
+  dremio_exec:
+    restart: unless-stopped
+    image: dremio/dremio-oss:latest
+    env_file: ./config/executor/dremio-env
+    hostname: dremio_exec
+    container_name: dremio_exec
+    volumes:
+      - ./executor_data:/opt/dremio/data
+      - ./config/executor:/opt/dremio/conf
+    ports:
+      - "9047:9047"
+      - "31010:31010"
+      - "32010:32010"
+      - "45678:45678"
+    network_mode: host

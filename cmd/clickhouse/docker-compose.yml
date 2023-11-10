@@ -1,0 +1,16 @@
+version: '3'
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    restart: always
+    privileged: true
+    container_name: clickhouse
+    ports:
+      - "48123:8123"  # HTTP port
+      - "49000:9000"  # Native protocol port
+    volumes:
+      - /data01/clickhouse/data:/var/lib/clickhouse
+      - /data01/clickhouse/config:/etc/clickhouse-server
+    environment:
+      - CLICKHOUSE_USER=root
+      - CLICKHOUSE_PASSWORD=root123456

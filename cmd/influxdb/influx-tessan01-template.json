@@ -1,0 +1,979 @@
+[
+  {
+    "apiVersion": "influxdata.com/v2alpha1",
+    "kind": "Dashboard",
+    "metadata": {
+      "name": "rightful-moore-239001"
+    },
+    "spec": {
+      "charts": [
+        {
+          "colors": [
+            {
+              "id": "0",
+              "name": "ruby",
+              "type": "min",
+              "hex": "#BF3D5E"
+            },
+            {
+              "id": "1",
+              "name": "star",
+              "type": "max",
+              "hex": "#7A65F2",
+              "value": 100
+            }
+          ],
+          "decimalPlaces": 2,
+          "height": 3,
+          "kind": "Gauge",
+          "name": "MEM",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mem\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used_percent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {},
+          "suffix": " %",
+          "width": 4
+        },
+        {
+          "colors": [
+            {
+              "id": "0",
+              "name": "tiger",
+              "type": "min",
+              "hex": "#F48D38"
+            },
+            {
+              "id": "1",
+              "name": "pepper",
+              "type": "max",
+              "hex": "#383846",
+              "value": 100
+            }
+          ],
+          "decimalPlaces": 2,
+          "height": 3,
+          "kind": "Gauge",
+          "name": "CPU",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_user\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu-total\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {},
+          "suffix": " %",
+          "width": 3,
+          "yPos": 3
+        },
+        {
+          "colors": [
+            {
+              "id": "0",
+              "name": "tiger",
+              "type": "min",
+              "hex": "#F48D38"
+            },
+            {
+              "id": "1",
+              "name": "pepper",
+              "type": "max",
+              "hex": "#383846",
+              "value": 100
+            }
+          ],
+          "decimalPlaces": 2,
+          "height": 3,
+          "kind": "Gauge",
+          "name": "CPU -System",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu-total\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {},
+          "suffix": " %",
+          "width": 3,
+          "yPos": 6
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "ePNnY62ArmSSbnGoRjiqI",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "GnfXr6XzuLk1C3RFGSx7V",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "z-ubR9VM_IIRzd4BnNPX1",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "网络",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"nstat\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "yCol": "_value",
+          "yPos": 9
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "ePNnY62ArmSSbnGoRjiqI",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "GnfXr6XzuLk1C3RFGSx7V",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "z-ubR9VM_IIRzd4BnNPX1",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "磁盘IO",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"read_bytes\" or r[\"_field\"] == \"write_bytes\")\n  |> filter(fn: (r) => r[\"name\"] == \"sdb\" or r[\"name\"] == \"sda\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "yCol": "_value",
+          "yPos": 11
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "lSdr_ImQnazwq6PkiBt4_",
+              "name": "Do Androids Dream of Electric Sheep?",
+              "type": "scale",
+              "hex": "#8F8AF4"
+            },
+            {
+              "id": "g40B2W0fBPiSwKCCWefFq",
+              "name": "Do Androids Dream of Electric Sheep?",
+              "type": "scale",
+              "hex": "#A51414"
+            },
+            {
+              "id": "g-t0le7DU-7lS4KMiBl4g",
+              "name": "Do Androids Dream of Electric Sheep?",
+              "type": "scale",
+              "hex": "#F4CF31"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "SSD",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used_percent\")\n  |> filter(fn: (r) => r[\"device\"] == \"sda5\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "yCol": "_value",
+          "yPos": 13
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "lSdr_ImQnazwq6PkiBt4_",
+              "name": "Do Androids Dream of Electric Sheep?",
+              "type": "scale",
+              "hex": "#8F8AF4"
+            },
+            {
+              "id": "g40B2W0fBPiSwKCCWefFq",
+              "name": "Do Androids Dream of Electric Sheep?",
+              "type": "scale",
+              "hex": "#A51414"
+            },
+            {
+              "id": "g-t0le7DU-7lS4KMiBl4g",
+              "name": "Do Androids Dream of Electric Sheep?",
+              "type": "scale",
+              "hex": "#F4CF31"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "HDD",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used_percent\")\n  |> filter(fn: (r) => r[\"device\"] == \"sdb\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "yCol": "_value",
+          "yPos": 15
+        },
+        {
+          "colors": [
+            {
+              "id": "0",
+              "name": "honeydew",
+              "type": "min",
+              "hex": "#7CE490"
+            },
+            {
+              "id": "1",
+              "name": "tiger",
+              "type": "max",
+              "hex": "#F48D38",
+              "value": 100
+            }
+          ],
+          "decimalPlaces": 2,
+          "height": 3,
+          "kind": "Gauge",
+          "name": "SSD",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used_percent\")\n  |> filter(fn: (r) => r[\"device\"] == \"sda5\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {},
+          "suffix": " %",
+          "width": 1,
+          "xPos": 3,
+          "yPos": 3
+        },
+        {
+          "colors": [
+            {
+              "id": "0",
+              "name": "pineapple",
+              "type": "min",
+              "hex": "#FFB94A"
+            },
+            {
+              "id": "1",
+              "name": "planet",
+              "type": "max",
+              "hex": "#513CC6",
+              "value": 100
+            }
+          ],
+          "decimalPlaces": 2,
+          "height": 3,
+          "kind": "Gauge",
+          "name": "HDD",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used_percent\")\n  |> filter(fn: (r) => r[\"device\"] == \"sdb\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {},
+          "suffix": " %",
+          "width": 1,
+          "xPos": 3,
+          "yPos": 6
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "XHkgOqXPRwB3ZBqVC4Yc0",
+              "name": "Ectoplasm",
+              "type": "scale",
+              "hex": "#DA6FF1"
+            },
+            {
+              "id": "W8UAI8zh3OwlI6YhiYPTU",
+              "name": "Ectoplasm",
+              "type": "scale",
+              "hex": "#00717A"
+            },
+            {
+              "id": "G97AiGbQUFejGSI18sELd",
+              "name": "Ectoplasm",
+              "type": "scale",
+              "hex": "#ACFF76"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "内存",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mem\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 8,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value"
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "ePNnY62ArmSSbnGoRjiqI",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "GnfXr6XzuLk1C3RFGSx7V",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "z-ubR9VM_IIRzd4BnNPX1",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "CPU",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_user\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 8,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value",
+          "yPos": 2
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "ePNnY62ArmSSbnGoRjiqI",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "GnfXr6XzuLk1C3RFGSx7V",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "z-ubR9VM_IIRzd4BnNPX1",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "CPU 温度",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"temp\")\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\n  |> filter(fn: (r) => r[\"sensor\"] == \"coretemp_core_0\" or r[\"sensor\"] == \"coretemp_core_1\" or r[\"sensor\"] == \"coretemp_core_10\" or r[\"sensor\"] == \"coretemp_core_11\" or r[\"sensor\"] == \"coretemp_core_12\" or r[\"sensor\"] == \"coretemp_core_16\" or r[\"sensor\"] == \"coretemp_core_17\" or r[\"sensor\"] == \"coretemp_core_18\" or r[\"sensor\"] == \"coretemp_core_19\" or r[\"sensor\"] == \"coretemp_core_2\" or r[\"sensor\"] == \"coretemp_core_20\" or r[\"sensor\"] == \"coretemp_core_24\" or r[\"sensor\"] == \"coretemp_core_25\" or r[\"sensor\"] == \"coretemp_core_26\" or r[\"sensor\"] == \"coretemp_core_27\" or r[\"sensor\"] == \"coretemp_core_28\" or r[\"sensor\"] == \"coretemp_core_3\" or r[\"sensor\"] == \"coretemp_core_4\" or r[\"sensor\"] == \"coretemp_core_8\" or r[\"sensor\"] == \"coretemp_core_9\" or r[\"sensor\"] == \"coretemp_package_id_1\" or r[\"sensor\"] == \"coretemp_package_id_0\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 8,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value",
+          "yPos": 4
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "dyMLgWnWN41peA0RlEhN4",
+              "name": "Delorean",
+              "type": "scale",
+              "hex": "#FD7A5D"
+            },
+            {
+              "id": "H8LuPfqAT0vsPEkvQZAyF",
+              "name": "Delorean",
+              "type": "scale",
+              "hex": "#5F1CF2"
+            },
+            {
+              "id": "D6WtXaQODKtyhr0rmvYAt",
+              "name": "Delorean",
+              "type": "scale",
+              "hex": "#4CE09A"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "Power",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"PSU2_PIN\" or r[\"_measurement\"] == \"PSU1_PIN\" or r[\"_measurement\"] == \"Total_Power\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 8,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value",
+          "yPos": 6
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "lx_QLyf3VED2qf98WMz-P",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "lcX1Br1WPs26ez7zaX44I",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "Ga2musKzdRSHJwKDxr6yj",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "Fan Speed",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"FAN1_R_Speed\" or r[\"_measurement\"] == \"FAN2_R_Speed\" or r[\"_measurement\"] == \"FAN3_R_Speed\" or r[\"_measurement\"] == \"FAN4_R_Speed\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 8,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value",
+          "yPos": 8
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "YxItZowBMuH2brAP6kpie",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "IfRvAzrYAFLZ8nmWwULyE",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "SkbdNXtj4qetmECJDmbbv",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "CPU Volt",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"CPU1_VCore\" or r[\"_measurement\"] == \"CPU2_VCore\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value",
+          "yPos": 10
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "YxItZowBMuH2brAP6kpie",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "IfRvAzrYAFLZ8nmWwULyE",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "SkbdNXtj4qetmECJDmbbv",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "Disk Temp",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Disks Temp\" or r[\"_measurement\"] == \"RAID_Temp\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 4,
+          "yCol": "_value",
+          "yPos": 12
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "YxItZowBMuH2brAP6kpie",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "IfRvAzrYAFLZ8nmWwULyE",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "SkbdNXtj4qetmECJDmbbv",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "PSU Volt",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"PSU2_VIN\" or r[\"_measurement\"] == \"PSU1_VIN\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 8,
+          "yCol": "_value",
+          "yPos": 10
+        },
+        {
+          "axes": [
+            {
+              "base": "10",
+              "name": "x",
+              "scale": "linear"
+            },
+            {
+              "base": "10",
+              "name": "y",
+              "scale": "linear"
+            }
+          ],
+          "colorizeRows": true,
+          "colors": [
+            {
+              "id": "YxItZowBMuH2brAP6kpie",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#31C0F6"
+            },
+            {
+              "id": "IfRvAzrYAFLZ8nmWwULyE",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#A500A5"
+            },
+            {
+              "id": "SkbdNXtj4qetmECJDmbbv",
+              "name": "Nineteen Eighty Four",
+              "type": "scale",
+              "hex": "#FF7E27"
+            }
+          ],
+          "geom": "line",
+          "height": 2,
+          "hoverDimension": "auto",
+          "kind": "Xy",
+          "legendColorizeRows": true,
+          "legendOpacity": 1,
+          "legendOrientationThreshold": 100000000,
+          "name": "DDR Volt",
+          "opacity": 1,
+          "orientationThreshold": 100000000,
+          "position": "overlaid",
+          "queries": [
+            {
+              "query": "from(bucket: \"tessan\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"CPU2_DDR_VDDQ2\" or r[\"_measurement\"] == \"CPU2_DDR_VDDQ1\" or r[\"_measurement\"] == \"CPU1_DDR_VDDQ1\" or r[\"_measurement\"] == \"CPU1_DDR_VDDQ2\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+            }
+          ],
+          "staticLegend": {
+            "colorizeRows": true,
+            "opacity": 1,
+            "orientationThreshold": 100000000,
+            "widthRatio": 1
+          },
+          "width": 4,
+          "widthRatio": 1,
+          "xCol": "_time",
+          "xPos": 8,
+          "yCol": "_value",
+          "yPos": 12
+        }
+      ],
+      "name": "Tessan01"
+    }
+  }
+]

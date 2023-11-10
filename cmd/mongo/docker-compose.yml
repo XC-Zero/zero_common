@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - /data/mongo/db:/data/db
+      - /data/mongo/log:/var/log/mongodb
+    #     - /data/mongo/config:/etc/mongo
+    command: mongod
+    environment:
+      - TZ=Asia/Shanghai
+      - MONGO_INITDB_DATABASE=tessan_erp
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root123456
+
+

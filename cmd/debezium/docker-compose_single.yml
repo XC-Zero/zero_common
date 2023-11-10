@@ -1,0 +1,55 @@
+version: '2'
+services:
+  zookeeper:
+    image: quay.io/debezium/zookeeper:latest
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+  kafka:
+    image: quay.io/debezium/kafka:latest
+    volumes:
+      - /data/kafka/config:/kafka/config
+      - /data/kafka/data:/kafka/data
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper
+    environment:
+      - ZOOKEEPER_CONNECT=192.168.13.108:2181
+  connect:
+    image: quay.io/debezium/connect:latest
+    ports:
+      - "8083:8083"
+      - "5005:5005"
+    depends_on:
+      - kafka
+    links:
+      - kafka
+    environment:
+      - BOOTSTRAP_SERVERS=192.168.13.108:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_source_connect_statuses
+  debezium-ui:
+    image: debezium/debezium-ui:latest
+    ports:
+      - "8880:8080"
+    environment:
+      - KAFKA_CONNECT_URIS=http://192.168.13.108:8083
+    depends_on:
+      - connect
+    links:
+      - connect
+      - kafka
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "9090:8080"
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=192.168.13.108:9092

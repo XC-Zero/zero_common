@@ -1,0 +1,13 @@
+version: '3'
+services:
+  tx-erp:
+    restart: always
+    image: tx-erp:v0.0.1
+    container_name: tx-erp
+    volumes:
+      - ./configs:/configs
+      - ./logs:/logs
+    ports:
+      - "7654:7654"
+
+

@@ -1,0 +1,61 @@
+version: '3'
+services:
+
+  mysql_master:
+    restart: always
+    image: mysql:latest
+    privileged: true
+    container_name: mysql_master
+    volumes:
+      - /data/mysql/master/data:/var/lib/mysql
+      - /data/mysql/master/conf/my.cnf:/etc/my.cnf
+      - /data/mysql/master/logs:/logs
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root123456"
+      - "MYSQL_DATABASE=test"
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "3306:3306"
+    security_opt:
+      - seccomp:unconfined
+    networks:
+      mysql_cluster:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:3984:3989::10
+  mysql_slave01:
+    restart: always
+    image: mysql:latest
+    privileged: true
+    container_name: mysql_slave01
+    depends_on:
+      - mysql_master
+    volumes:
+      - /data/mysql/slave01/data:/var/lib/mysql
+      - /data/mysql/slave01/conf/my.cnf:/etc/my.cnf
+      - /data/mysql/slave01/conf:/etc/mysql/conf.d
+      - /data/mysql/slave01/conf:/etc/my.cnf.d
+      - /data/mysql/slave01/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+
+      - /data/mysql/slave01/logs:/logs
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root123456"
+      - "MYSQL_DATABASE=test"
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "33306:3306"
+    security_opt:
+      - seccomp:unconfined
+    networks:
+      mysql_cluster:
+        ipv4_address: 172.16.238.11
+        ipv6_address: 2001:3984:3989::11
+
+
+networks:
+  mysql_cluster:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
+

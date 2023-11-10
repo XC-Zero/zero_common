@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    privileged: true
+    ports:
+      - "6379:6379"
+    environment:
+      - TZ=Asia/Shanghai
+      - REDIS_PASSWORD="aGy&auD@05>0zH%P"
+    volumes:
+      - /data/redis/data:/data
+      - /data/redis/conf/redis.conf:/etc/redis/redis.conf
+      - /data/redis/logs:/logs

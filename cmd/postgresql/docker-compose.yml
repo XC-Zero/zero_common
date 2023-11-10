@@ -1,0 +1,11 @@
+version: "3"
+services:
+  pgsql:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: test01x
+      POSTGRES_USER: root
+
+    ports:
+      - "5432:5432"

@@ -1,0 +1,49 @@
+version: "3"
+services:
+  elasticsearch:
+    image: elasticsearch:8.9.0
+    volumes:
+      - ./certs:/usr/share/elasticsearch/config/certs
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+      - ./elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    #      - ./elasticsearch:/usr/share/elasticsearch
+
+    user: root
+    ports:
+      - "19200:9200"
+    privileged: true
+
+    environment:
+      - discovery.type=single-node
+      - 'ES_JAVA_OPTS=-Xms8G -Xmx8G'
+    networks:
+      es_cluster:
+        ipv4_address: 172.16.166.11
+        ipv6_address: 2001:3984:3866::11
+  kibana:
+    depends_on:
+      - elasticsearch
+    image: kibana:8.9.0
+    volumes:
+      - ./certs:/usr/share/kibana/config/certs
+      - ./kibana/data:/usr/share/kibana/data
+    ports:
+      - "15601:5601"
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://172.16.166.11:9200
+      - ELASTICSEARCH_USERNAME=root
+      - ELASTICSEARCH_PASSWORD=123456
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+    networks:
+      es_cluster:
+        ipv4_address: 172.16.166.188
+        ipv6_address: 2001:3984:3866::88
+
+networks:
+  es_cluster:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.166.0/24"
+        - subnet: "2001:3984:3866::/64"

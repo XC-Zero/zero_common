@@ -1,0 +1,37 @@
+version: "3"
+services:
+  nginx_react_sit:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "6001:6001"
+    volumes:
+      - /data/nginx/sit/conf.d:/etc/nginx/conf.d
+      - /data/web/sit/react/dist:/dist
+
+  nginx_react_pro:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "8001:8001"
+    volumes:
+      - /data/nginx/pro/conf.d:/etc/nginx/conf.d
+      - /data/web/pro/dist:/dist
+  nginx_vue_pro:
+    image: nginx:latest
+
+    restart: always
+    ports:
+      - "8888:8001"
+    volumes:
+      - /data/nginx/pro/conf.d:/etc/nginx/conf.d
+      - /data/web/pro/vue/dist:/dist
+
+  nginx_vue_sit:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "6666:6001"
+    volumes:
+      - /data/nginx/sit/conf.d:/etc/nginx/conf.d
+      - /data/web/sit/vue/dist:/dist

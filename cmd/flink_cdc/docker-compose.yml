@@ -1,0 +1,24 @@
+version: "3"
+services:
+  job_manager:
+    image: flink:latest
+    expose:
+      - "6123"
+    ports:
+      - "8081:8081"
+    command: job_manager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=job_manager
+  task_manager:
+    image: flink:latest
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - job_manager
+    command: task_manager
+    links:
+      - "job_manager:job_manager"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=job_manager
+ 

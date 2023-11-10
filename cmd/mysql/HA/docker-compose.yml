@@ -1,0 +1,62 @@
+version: "3"
+services:
+  MYSQL_HA_MASTER_01:
+    image: mysql:latest
+    restart: always
+    container_name: MYSQL_HA_MASTER_01
+    volumes:
+      - ./MYSQL_HA_MASTER_01/data:/var/lib/mysql
+      - ./MYSQL_HA_MASTER_01/conf/my.cnf:/etc/mysql/my.cnf
+    ports:
+      - "12306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=^s9&0cjy45)@1
+    privileged: true
+    command: [ '--server-id=1',
+               '--log-bin=MYSQL_HA_MASTER_01-bin',
+               '--binlog-ignore-db=mysql',
+               '--binlog_cache_size=256M',
+               '--default_authentication_plugin=mysql_native_password',
+               '--gtid_mode=ON',
+               '--enforce_gtid_consistency=1',
+               '--binlog_format=row',
+               '--relay_log=MYSQL_HA_MASTER_01-relay',
+               '--lower_case_table_names=1',
+               '--sql_mode=STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' ]
+    networks:
+      MYSQL_HA_CLUSTER:
+        ipv4_address: 172.16.212.101
+
+  MYSQL_HA_MASTER_02:
+    image: mysql:latest
+    restart: always
+    container_name: MYSQL_HA_MASTER_02
+    volumes:
+      - ./MYSQL_HA_MASTER_02/data:/var/lib/mysql
+      - ./MYSQL_HA_MASTER_02/conf/my.cnf:/etc/mysql/my.cnf
+    ports:
+      - "12315:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=^s9&0cjy45)@1
+    privileged: true
+    command: [ '--server-id=2',
+               '--log-bin=MYSQL_HA_MASTER_02-bin',
+               '--binlog-ignore-db=mysql',
+               '--binlog_cache_size=256M',
+               '--default_authentication_plugin=mysql_native_password',
+               '--enforce_gtid_consistency=1',
+               '--binlog_format=row',
+               '--relay_log=MYSQL_HA_MASTER_02-relay',
+               '--lower_case_table_names=1',
+               '--sql_mode=STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' ]
+    networks:
+      MYSQL_HA_CLUSTER:
+        ipv4_address: 172.16.212.102
+
+networks:
+  MYSQL_HA_CLUSTER:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.212.0/24"
+

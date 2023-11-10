@@ -1,0 +1,11 @@
+version: "3"
+services:
+  portainer-ce:
+    image: portainer/portainer-ce:latest
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_data:/data
+    ports:
+      - "58000:8000"
+      - "59443:9443"

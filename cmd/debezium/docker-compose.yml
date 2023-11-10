@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  connect:
+    restart: always
+    image: quay.io/debezium/connect:latest
+    ports:
+      - "8083:8083"
+      - "5005:5005"
+    environment:
+      - BOOTSTRAP_SERVERS=192.168.15.69:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=debezium_configs
+      - OFFSET_STORAGE_TOPIC=debezium_offsets
+      - STATUS_STORAGE_TOPIC=debezium_connect_statuses
+    volumes:
+      - ./config:/kafka/config
+    networks:
+      - kafka_net
+  debezium-ui:
+    restart: always
+    image: debezium/debezium-ui:latest
+    ports:
+      - "8880:8080"
+    environment:
+      - KAFKA_CONNECT_URIS=http://192.168.15.69:8083
+    depends_on:
+      - connect
+    networks:
+      - kafka_net
+networks:
+  kafka_net:
+    external: true

@@ -1,0 +1,63 @@
+version: '3'
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: unless-stopped
+    privileged: true
+    environment:
+      PRE_CREATE_DB: tessan
+      ADMIN_USER: admin
+      INFLUXDB_INIT_PWD: admin123
+    ports:
+      - "58086:8086"
+    volumes:
+      - "/data/TIG/influxdb/data:/var/lib/influxdb"
+    networks:
+      TIG_NET:
+        ipv4_address: 172.18.222.11
+        ipv6_address: 2025:3984:3981::1
+
+  telegraf:
+    image: telegraf:latest
+    restart: unless-stopped
+    privileged: true
+    container_name: telegraf
+    depends_on:
+      - influxdb
+    volumes:
+      - "/data/TIG/telegraf/conf:/etc/telegraf"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      TIG_NET:
+        ipv4_address: 172.18.222.22
+        ipv6_address: 2025:3984:3982::1
+
+#  grafana:
+#    image: grafana/grafana:latest
+#    container_name: TIG_grafana
+#    restart: unless-stopped
+#    ports:
+#      - "53000:3000"
+#    environment:
+#      GF_SECURITY_ADMIN_USER: admin
+#      GF_SECURITY_ADMIN_PASSWORD: admin132
+#
+#    depends_on:
+#      - influxdb
+#      - telegraf
+#    volumes:
+#      - "/data/TIG/grafana/conf:/var/lib/grafana"
+#    networks:
+#      TIG_NET:
+#        ipv4_address: 172.18.222.33
+#        ipv6_address: 2025:3984:3983::1
+
+
+networks:
+  TIG_NET:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.222.0/24"
+        - subnet: "2025:3984:3989::/64"
