@@ -57,7 +57,7 @@ func SuccessWithTable(ctx *gin.Context, msg any, data any, table component.Table
 	})
 }
 
-func SuccessWithTableAndDefaultCol(ctx *gin.Context, msg any, data any, model any, table component.Table, count int64, hooks ...component.TableHookFunc) {
+func SuccessWithTableAndDefaultCol(ctx *gin.Context, msg, data, defaultCol any, table component.Table, count int64, hooks ...component.TableHookFunc) {
 	if hooks != nil {
 		for i := 0; i < len(hooks); i++ {
 			data, table = hooks[i](data, table)
@@ -67,7 +67,7 @@ func SuccessWithTableAndDefaultCol(ctx *gin.Context, msg any, data any, model an
 	ctx.JSON(OK, map[string]any{
 		MessageLabel:  msg,
 		"table":       table,
-		"default_col": component.ToDefaultCol(model),
+		"default_col": defaultCol,
 		"data":        data,
 		"count":       count,
 	})
