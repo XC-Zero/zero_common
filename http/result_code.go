@@ -30,10 +30,10 @@ func Waring(ctx *gin.Context, msg any, err ...error) {
 	})
 }
 
-func Success(ctx *gin.Context, msg any, data any, count int64, hooks ...func(any2 any) any) {
+func Success(ctx *gin.Context, msg any, data any, count int64, hooks ...component.TableHookFunc) {
 	if hooks != nil {
 		for i := 0; i < len(hooks); i++ {
-			data = hooks[i](data)
+			data, _ = hooks[i](data, component.Table{})
 		}
 	}
 	ctx.JSON(OK, map[string]any{

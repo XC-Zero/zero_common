@@ -33,24 +33,38 @@ const (
 	NIL   FixCol = ""
 )
 
-type Col struct {
-	ColLabel     string `json:"title"`
-	ColVal       string `json:"dataIndex"`
-	ColValType   string `json:"col_val_type"`
-	CanEdit      bool   `json:"can_edit"`
-	CanBatchEdit bool   `json:"can_batch_edit"`
-	CanSort      bool   `json:"can_sort"`
-	CanHover     bool   `json:"can_hover"`
-	CanClick     bool   `json:"can_click"`
-	Resizable    bool   `json:"resizable"`
-	FixCol       FixCol `json:"fixed"`
-	Width        *int   `json:"width"`
-}
+type ColValType string
+
+const (
+	STRING    ColValType = "string"
+	DECIMAL   ColValType = "decimal"
+	BOOL      ColValType = "bool"
+	INT       ColValType = "int"
+	TEXT      ColValType = "text"
+	DATETIME  ColValType = "datetime"
+	FLOAT     ColValType = "float"
+	OPERATION ColValType = "operation"
+	UNKNOW    ColValType = ""
+)
 
 var OperationCol = Col{
 	ColLabel:   "操作",
 	ColVal:     "operation",
-	ColValType: "operation",
+	ColValType: OPERATION,
+}
+
+type Col struct {
+	ColLabel     string     `json:"title"`
+	ColVal       string     `json:"dataIndex"`
+	ColValType   ColValType `json:"col_val_type"`
+	CanEdit      bool       `json:"can_edit"`
+	CanBatchEdit bool       `json:"can_batch_edit"`
+	CanSort      bool       `json:"can_sort"`
+	CanHover     bool       `json:"can_hover"`
+	CanClick     bool       `json:"can_click"`
+	Resizable    bool       `json:"resizable"`
+	FixCol       FixCol     `json:"fixed"`
+	Width        *int       `json:"width"`
 }
 
 const (
@@ -89,7 +103,7 @@ func NewTable(structVal any) []Col {
 		if kind == reflect.Ptr {
 			kind = objT.Field(i).Type.Elem().Kind()
 		}
-		col.ColValType = kind.String()
+		col.ColValType = ColValType(kind.String())
 
 		for _, tag := range strings.Split(tags, tableSplit) {
 			tagContent := strings.Split(tag, tableEqu)

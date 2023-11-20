@@ -152,3 +152,8 @@ func ReverseTime(date time.Time, location *time.Location) time.Time {
 	t := date.In(location)
 	return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), time.Local)
 }
+
+// TimeRetainDay 保留年月日
+func TimeRetainDay(date time.Time) time.Time {
+	return time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
+}
