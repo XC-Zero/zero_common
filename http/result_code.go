@@ -23,6 +23,7 @@ func Error(ctx *gin.Context, msg any, err ...error) {
 	})
 }
 
+// Waring TODO 打印日志格式
 func Waring(ctx *gin.Context, msg any, err ...error) {
 	log.Printf(`[WARN]%+v`, err)
 	ctx.JSON(BadRequest, map[string]any{
