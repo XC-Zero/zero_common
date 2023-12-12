@@ -1,7 +1,7 @@
 package color
 
 import (
-	"gitlab.tessan.com/data-center/tessan-erp-common/convert"
+	"github.com/XC-Zero/zero_common/convert"
 	"math/rand"
 )
 

@@ -1,7 +1,7 @@
 package email
 
 import (
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
+	"github.com/XC-Zero/zero_common/config"
 	"testing"
 )
 

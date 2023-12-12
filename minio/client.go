@@ -1,9 +1,9 @@
 package minio
 
 import (
+	"github.com/XC-Zero/zero_common/config"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
 )
 
 func InitMinio(config config.MinioConfig) (*minio.Client, error) {

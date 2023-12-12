@@ -1,8 +1,8 @@
 package email
 
 import (
+	"github.com/XC-Zero/zero_common/config"
 	"github.com/jordan-wright/email"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
 	"net/smtp"
 	"strings"
 )

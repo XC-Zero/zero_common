@@ -5,12 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/XC-Zero/zero_common/config"
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/typedapi/core/search"
 	"github.com/elastic/go-elasticsearch/v8/typedapi/types"
 	"github.com/elastic/go-elasticsearch/v8/typedapi/types/enums/conflicts"
 	"github.com/pkg/errors"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
 	"io"
 	"log"
 )

@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"fmt"
+	"github.com/XC-Zero/zero_common/config"
 	"github.com/pkg/errors"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

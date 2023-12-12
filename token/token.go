@@ -3,7 +3,7 @@ package token
 import (
 	"encoding/base64"
 	"encoding/json"
-	"gitlab.tessan.com/data-center/tessan-erp-common/aes"
+	"github.com/XC-Zero/zero_common/aes"
 )
 
 // Token 令牌

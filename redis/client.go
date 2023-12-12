@@ -1,8 +1,8 @@
 package redis
 
 import (
+	"github.com/XC-Zero/zero_common/config"
 	"github.com/go-redis/redis/v7"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
 )
 
 // InitRedis ...

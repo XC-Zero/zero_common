@@ -1,8 +1,8 @@
 package http
 
 import (
+	"github.com/XC-Zero/zero_common/component"
 	"github.com/gin-gonic/gin"
-	"gitlab.tessan.com/data-center/tessan-erp-common/component"
 	"log"
 )
 

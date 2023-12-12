@@ -1,4 +1,4 @@
-module gitlab.tessan.com/data-center/tessan-erp-common
+module github.com/XC-Zero/zero_common
 
 go 1.20
 

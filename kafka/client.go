@@ -2,7 +2,7 @@ package kafka
 
 import (
 	"github.com/IBM/sarama"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
+	"github.com/XC-Zero/zero_common/config"
 	"time"
 )
 

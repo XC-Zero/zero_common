@@ -2,7 +2,7 @@ package influxdb
 
 import (
 	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
+	"github.com/XC-Zero/zero_common/config"
 )
 
 func InitInfluxClient(config config.InfluxDBConfig) (*influxdb3.Client, error) {

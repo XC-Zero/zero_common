@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"fmt"
-	"gitlab.tessan.com/data-center/tessan-erp-common/convert"
+	"github.com/XC-Zero/zero_common/convert"
 	"gorm.io/gorm/schema"
 	"reflect"
 	"strings"

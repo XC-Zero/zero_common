@@ -2,8 +2,8 @@ package mongo
 
 import (
 	"context"
+	"github.com/XC-Zero/zero_common/config"
 	"github.com/qiniu/qmgo/options"
-	"gitlab.tessan.com/data-center/tessan-erp-common/config"
 	"go.mongodb.org/mongo-driver/event"
 	op "go.mongodb.org/mongo-driver/mongo/options"
 	"log"
