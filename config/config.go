@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	erpConfig   ERPConfig
+	config      Config
 	once        sync.Once
 	configName  = flag.String("c", "config", "读入config文件")
 	configPath  = flag.String("p", "./configs", "config所在目录")
@@ -16,7 +16,7 @@ var (
 )
 
 // GetConfig 单例获取配置
-func GetConfig() ERPConfig {
+func GetConfig() Config {
 	once.Do(func() {
 		flag.Parse()
 		globalViper.SetConfigName(*configName)
@@ -27,15 +27,15 @@ func GetConfig() ERPConfig {
 			panic(err)
 		}
 
-		err := globalViper.Unmarshal(&erpConfig, setTagName)
+		err := globalViper.Unmarshal(&config, setTagName)
 		if err != nil {
 			panic(err)
 		}
 	})
-	return erpConfig
+	return config
 }
 
-type ERPConfig struct {
+type Config struct {
 	Database Database      `json:"database"`
 	Service  ServiceConfig `json:"service"`
 	Monitor  MonitorConfig `json:"monitor"`
