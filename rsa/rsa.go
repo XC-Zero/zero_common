@@ -6,6 +6,7 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"crypto/x509"
+	"encoding/base64"
 	"encoding/pem"
 	"github.com/pkg/errors"
 )
@@ -43,7 +44,7 @@ func GenerateKey() (public, private string, err error) {
 	return
 }
 
-func EncodeByPublicKey(plainText, publicKey string) (cipherText string, err error) {
+func EncodeByPublicKey(plainText, publicKey string, needBase64 bool) (cipherText string, err error) {
 	block, _ := pem.Decode([]byte(publicKey))
 	if block == nil || block.Type != "RSA PUBLIC KEY" {
 		err = errors.New("无法解析公钥文件" + block.Type)
@@ -60,11 +61,22 @@ func EncodeByPublicKey(plainText, publicKey string) (cipherText string, err erro
 		err = errors.WithStack(err)
 		return
 	}
+	if needBase64 {
+		return base64.RawStdEncoding.EncodeToString(cipher), nil
+	}
 	cipherText = string(cipher)
 	return
 }
 
-func DecodeByPrivateKey(cipherText, privateKey string) (plainText string, err error) {
+func DecodeByPrivateKey(cipherText, privateKey string, needBase64 bool) (plainText string, err error) {
+	if needBase64 {
+		txt, err := base64.RawStdEncoding.DecodeString(cipherText)
+		if err != nil {
+			return "", err
+		}
+		cipherText = string(txt)
+
+	}
 	block, _ := pem.Decode([]byte(privateKey))
 	if block == nil || block.Type != "RSA PRIVATE KEY" {
 		err = errors.Errorf("无法解析私钥文件")
