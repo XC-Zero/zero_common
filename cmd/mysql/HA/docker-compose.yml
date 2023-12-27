@@ -6,7 +6,7 @@ services:
     container_name: MYSQL_HA_MASTER_01
     volumes:
       - ./MYSQL_HA_MASTER_01/data:/var/lib/mysql
-      - ./MYSQL_HA_MASTER_01/conf/my.cnf:/etc/mysql/my.cnf
+      - ./MYSQL_HA_MASTER_01/conf/conf:/etc/mysql/conf.d
     ports:
       - "12306:3306"
     environment:
@@ -33,7 +33,8 @@ services:
     container_name: MYSQL_HA_MASTER_02
     volumes:
       - ./MYSQL_HA_MASTER_02/data:/var/lib/mysql
-      - ./MYSQL_HA_MASTER_02/conf/my.cnf:/etc/mysql/my.cnf
+      - ./MYSQL_HA_MASTER_02/conf:/etc/mysql/conf.d
+
     ports:
       - "12315:3306"
     environment:

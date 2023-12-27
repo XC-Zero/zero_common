@@ -30,8 +30,8 @@ func ReadConfig(path string, config any) error {
 }
 
 type MongoDBConfig struct {
-	URL    string `json:"url" yaml:"url"`
-	DBName string `json:"db_name" yaml:"db_name"`
+	URL    string `json:"url" yaml:"url"  toml:"url"`
+	DBName string `json:"db_name" yaml:"db_name" toml:"db_name"`
 }
 
 type InfluxDBConfig struct {
@@ -49,12 +49,12 @@ type MinioConfig struct {
 }
 
 type MysqlConfig struct {
-	Host     string `json:"host"`
-	Port     string `json:"port"`
-	Username string `json:"username"`
-	Pass     string `json:"pass"`
-	DBName   string `json:"db_name"`
-	LogMode  int    `json:"log_mode"`
+	Host     string `json:"host" toml:"host"`
+	Port     string `json:"port" toml:"port"`
+	Username string `json:"username" toml:"username"`
+	Pass     string `json:"pass" toml:"pass"`
+	DBName   string `json:"db_name" toml:"db_name"`
+	LogMode  int    `json:"log_mode" toml:"log_mode"`
 }
 
 type EmailConfig struct {
