@@ -4,30 +4,67 @@ services:
   connect:
     restart: always
     image: quay.io/debezium/connect:latest
-    ports:
-      - "8083:8083"
-      - "5005:5005"
+#    ports:
+#      - "38083:8083"
+#      - "35005:5005"
     environment:
-      - BOOTSTRAP_SERVERS=192.168.15.69:9092
+      - BOOTSTRAP_SERVERS=172.16.77.85:9092
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=debezium_configs
       - OFFSET_STORAGE_TOPIC=debezium_offsets
       - STATUS_STORAGE_TOPIC=debezium_connect_statuses
     volumes:
-      - ./config:/kafka/config
+      - ./debezium/config:/kafka/config
     networks:
-      - kafka_net
+      DEBEZIUM_NET:
+        ipv4_address: 172.16.77.77
   debezium-ui:
     restart: always
     image: debezium/debezium-ui:latest
     ports:
-      - "8880:8080"
+      - "38080:8080"
     environment:
-      - KAFKA_CONNECT_URIS=http://192.168.15.69:8083
+      - KAFKA_CONNECT_URIS=http://172.16.77.77:8083
     depends_on:
       - connect
     networks:
-      - kafka_net
+      DEBEZIUM_NET:
+        ipv4_address: 172.16.77.236
+  kafka:
+    image: bitnami/kafka:latest
+    user: root
+    restart: always
+    privileged: true
+    ports:
+      - "39092:9092"
+      - "39093:9093"
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@172.16.77.85:9093
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS= PLAINTEXT://172.16.77.85:9092
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
+    volumes:
+      - ./kafka/data:/bitnami/kafka
+    networks:
+      DEBEZIUM_NET:
+        ipv4_address: 172.16.77.85
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "39090:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=172.16.77.85:9092
+    networks:
+      DEBEZIUM_NET:
+        ipv4_address: 172.16.77.109
 networks:
-  kafka_net:
-    external: true
+  DEBEZIUM_NET:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.77.0/24"

@@ -6,13 +6,13 @@ services:
     restart: unless-stopped
     privileged: true
     environment:
-      PRE_CREATE_DB: tessan
+      PRE_CREATE_DB: know-weather
       ADMIN_USER: admin
       INFLUXDB_INIT_PWD: admin123
     ports:
       - "58086:8086"
     volumes:
-      - "/data/TIG/influxdb/data:/var/lib/influxdb"
+      - "./influxdb/data:/var/lib/influxdb"
     networks:
       TIG_NET:
         ipv4_address: 172.18.222.11
@@ -26,7 +26,7 @@ services:
     depends_on:
       - influxdb
     volumes:
-      - "/data/TIG/telegraf/conf:/etc/telegraf"
+      - "./telegraf/conf:/etc/telegraf"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       TIG_NET:

@@ -33,6 +33,8 @@ services:
       - /data/mysql/slave01/data:/var/lib/mysql
       - /data/mysql/slave01/conf/my.cnf:/etc/my.cnf
       - /data/mysql/slave01/conf:/etc/mysql/conf.d
+      - /data/mysql/slave01/conf:/etc/my.cnf.d
+      - /data/mysql/slave01/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
 
       - /data/mysql/slave01/logs:/logs
     environment:

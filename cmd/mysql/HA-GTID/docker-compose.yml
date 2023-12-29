@@ -1,0 +1,67 @@
+version: "3"
+services:
+  MYSQL_HA_GTID_01:
+    image: mysql:latest
+    restart: always
+    container_name: MYSQL_HA_GTID_01
+    volumes:
+      - ./MYSQL_HA_GTID_01/data:/var/lib/mysql
+      - ./MYSQL_HA_GTID_01/conf:/etc/mysql/conf.d
+    ports:
+      - "32315:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=^s9&0cjy45)@1
+    privileged: true
+    networks:
+      MYSQL_HA_CLUSTER:
+        ipv4_address: 172.165.212.101
+
+  MYSQL_HA_GTID_02:
+    image: mysql:latest
+    restart: always
+    container_name: MYSQL_HA_GTID_02
+    volumes:
+      - ./MYSQL_HA_GTID_02/data:/var/lib/mysql
+      - ./MYSQL_HA_GTID_02/conf:/etc/mysql/conf.d
+    ports:
+      - "32306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=^s9&0cjy45)@1
+    privileged: true
+    networks:
+      MYSQL_HA_CLUSTER:
+        ipv4_address: 172.165.212.102
+  nginx_mysql:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "33306:53306"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      MYSQL_HA_CLUSTER:
+        ipv4_address: 172.165.212.109
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    restart: always
+    container_name: GTID_CLICKHOUSE_SINGLE
+    volumes:
+      - ./clickhouse/data:/var/lib/clickhouse
+      - ./clickhouse/logs:/var/log/clickhouse-server
+#      - ./clickhouse/conf:/etc/clickhouse-server
+    ports:
+      - "39898:9090"
+      - "38123:8123"
+
+    networks:
+      MYSQL_HA_CLUSTER:
+        ipv4_address: 172.165.212.188
+networks:
+  MYSQL_HA_CLUSTER:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.165.212.0/24"
+
