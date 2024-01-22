@@ -3,6 +3,8 @@ package kafka
 import (
 	"github.com/IBM/sarama"
 	"github.com/XC-Zero/zero_common/config"
+	"github.com/pkg/errors"
+	"log"
 	"time"
 )
 
@@ -19,9 +21,39 @@ func InitKafkaClient(kafka config.KafkaConfig) (sarama.Client, error) {
 
 	//conf.Consumer.MaxPollRecords = 100
 	conf.Consumer.Offsets.Initial = sarama.OffsetOldest
+
 	client, err := sarama.NewClient(kafka.Address, conf)
 	if err != nil {
 		return nil, err
 	}
 	return client, err
+}
+
+func InitKafkaProducer(kafka config.KafkaConfig) (sarama.SyncProducer, error) {
+
+	conf := sarama.NewConfig()
+
+	conf.Producer.Return.Successes = true
+	conf.Producer.Return.Errors = true
+
+	producer, err := sarama.NewSyncProducer(kafka.Address, conf)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	log.Println("Create producer!")
+
+	var s = sarama.ProducerMessage{
+		Topic:     "TEST_TOPIC",
+		Key:       sarama.StringEncoder("TEST"),
+		Value:     sarama.StringEncoder("INIT KAFKA PRODUCER!"),
+		Timestamp: time.Now(),
+	}
+	p, n, err := producer.SendMessage(&s)
+
+	if err != nil {
+		panic(err)
+	}
+	log.Println(p, n)
+
+	return producer, err
 }

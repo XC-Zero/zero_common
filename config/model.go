@@ -1,33 +1,25 @@
 package config
 
-import (
-	"bytes"
-	"errors"
-	"github.com/spf13/viper"
-	"os"
-	"reflect"
-)
-
-// ReadConfig 读取配置文件
-func ReadConfig(path string, config any) error {
-	file, err := os.ReadFile(path)
-	if err != nil {
-		return err
-	}
-	viper.SetConfigType("toml")
-	err = viper.ReadConfig(bytes.NewBuffer(file))
-	if err != nil {
-		return err
-	}
-	if reflect.TypeOf(config).Kind() != reflect.Ptr {
-		return errors.New("Config is not Ptr! ")
-	}
-	err = viper.Unmarshal(config, setTagName)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+//// ReadConfig 读取配置文件
+//func ReadConfig(path string, config any) error {
+//	file, err := os.ReadFile(path)
+//	if err != nil {
+//		return err
+//	}
+//	viper.SetConfigType("toml")
+//	err = viper.ReadConfig(bytes.NewBuffer(file))
+//	if err != nil {
+//		return err
+//	}
+//	if reflect.TypeOf(config).Kind() != reflect.Ptr {
+//		return errors.New("Config is not Ptr! ")
+//	}
+//	err = viper.Unmarshal(config, setTagName)
+//	if err != nil {
+//		return err
+//	}
+//	return nil
+//}
 
 type MongoDBConfig struct {
 	URL    string `json:"url" yaml:"url"  toml:"url"`
@@ -35,10 +27,10 @@ type MongoDBConfig struct {
 }
 
 type InfluxDBConfig struct {
-	Host     string `json:"host" yaml:"host"`
-	Token    string `json:"token" yaml:"token"`
-	Org      string `json:"org" yaml:"org"`
-	Database string `json:"database" yaml:"database"`
+	Host     string `json:"host" yaml:"host" toml:"host"`
+	Token    string `json:"token" yaml:"token" toml:"token"`
+	Org      string `json:"org" yaml:"org" toml:"org"`
+	Database string `json:"database" yaml:"database" toml:"database"`
 }
 
 type MinioConfig struct {
@@ -55,12 +47,13 @@ type MysqlConfig struct {
 	Pass     string `json:"pass" toml:"pass"`
 	DBName   string `json:"db_name" toml:"db_name"`
 	LogMode  int    `json:"log_mode" toml:"log_mode"`
+	TZ       string `json:"timezone" toml:"timezone"`
 }
 
 type EmailConfig struct {
-	EmailServerAddr string `json:"email_server_addr" yaml:"email_server_addr"`
-	SenderEmail     string `json:"sender_email" yaml:"sender_email"`
-	EmailSecret     string `json:"email_secret" yaml:"email_secret"`
+	EmailServerAddr string `json:"email_server_addr" yaml:"email_server_addr" toml:"email_server_addr"`
+	SenderEmail     string `json:"sender_email" yaml:"sender_email" toml:"sender_email"`
+	EmailSecret     string `json:"email_secret" yaml:"email_secret" toml:"email_secret"`
 }
 
 type MonitorConfig struct {
@@ -72,8 +65,8 @@ type MonitorConfig struct {
 }
 
 type KafkaConfig struct {
-	Address []string `json:"address"`
-	SSL     bool     `json:"ssl"`
+	Address []string `json:"address" toml:"address"`
+	SSL     bool     `json:"ssl" toml:"ssl"`
 }
 type RedisConfig struct {
 	AddrList []string `json:"addr_list" yaml:"addr_list"`

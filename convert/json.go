@@ -89,7 +89,7 @@ func TxtToJson(file io.Reader, columnLine int) (column []string, res []map[strin
 }
 
 // CSVToJson TODO 可以开协程加速
-func CSVToJson(file io.Reader, columnLine int) (column []string, res []map[string]any) {
+func CSVToJson(file io.Reader, columnLine int, splitSymbols ...byte) (column []string, res []map[string]any) {
 	scanner := bufio.NewScanner(file)
 
 	var now = 1
@@ -103,18 +103,20 @@ func CSVToJson(file io.Reader, columnLine int) (column []string, res []map[strin
 			colText = strings.ReplaceAll(colText, "\\ufeff", "")
 			colText = strings.ReplaceAll(colText, "\\xA8\\xB9r", "")
 			colText = strings.ReplaceAll(colText, "\\xA1\\xE3", "")
-			column = CSVSplit(colText)
+			column = CSVSplit(colText, splitSymbols...)
 
 			l = len(column)
 		}
 		if now > columnLine {
 			nowText := scanner.Text()
+			if len(strings.TrimSpace(nowText)) == 0 {
+				continue
+			}
 			nowText = strings.ReplaceAll(nowText, "&quot;", "%%%%%")
 			nowText = strings.ReplaceAll(nowText, "\\xA8\\xB9r", "")
 			nowText = strings.ReplaceAll(nowText, "\\xC3\\xEB", "")
 			nowText = strings.ReplaceAll(nowText, "\\xA1\\xE3", "")
-
-			var data = CSVSplit(nowText)
+			data := CSVSplit(nowText, splitSymbols...)
 
 			var temp = make(map[string]any, len(data))
 			for i, s := range data {

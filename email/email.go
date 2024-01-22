@@ -3,6 +3,8 @@ package email
 import (
 	"github.com/XC-Zero/zero_common/config"
 	"github.com/jordan-wright/email"
+	"github.com/pkg/errors"
+
 	"net/smtp"
 	"strings"
 )
@@ -18,7 +20,7 @@ func SendEmail(cfg config.EmailConfig, subject, text, content string, to ...stri
 	err := e.Send(cfg.EmailServerAddr, smtp.PlainAuth("", cfg.SenderEmail,
 		cfg.EmailSecret, strings.Split(cfg.EmailServerAddr, ":")[0]))
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 	return nil
 }

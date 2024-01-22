@@ -7,7 +7,6 @@ import (
 )
 
 func Ipmi() {
-	//client, err := ipmi.NewClient("192.168.12.60", 23, "tessan", "Tessan123456")
 	client, err := ipmi.NewOpenClient()
 	if err != nil {
 		log.Panicf(`%+v`, errors.WithStack(err))

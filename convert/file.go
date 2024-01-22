@@ -150,14 +150,14 @@ func TxtDetectColumnIndex(file io.Reader) int {
 
 // CSVDetectColumnIndex 探测col位置
 // 根据 , 符剪切 最长且非空最多的第一行就是头
-func CSVDetectColumnIndex(file io.Reader) int {
+func CSVDetectColumnIndex(file io.Reader, splitSymbols ...byte) int {
 
 	scanner := bufio.NewScanner(file)
 
 	var maxLen, firstIndex int
 	for i := 0; i < maxDetectCol; i++ {
 		if scanner.Scan() {
-			data := CSVSplit(scanner.Text())
+			data := CSVSplit(scanner.Text(), splitSymbols...)
 			var notN = 0
 			for _, s := range data {
 				if s != "" {
@@ -354,8 +354,12 @@ func (s *symbolStack) push(sym symbol) int {
 }
 
 // CSVSplit 利用带下标的符号栈,分割
-func CSVSplit(row string) []string {
-	row = "," + row + ","
+func CSVSplit(row string, splitSymbols ...byte) []string {
+	var splitSymbol byte = ','
+	if len(splitSymbols) > 0 && splitSymbols[0] != ' ' {
+		splitSymbol = splitSymbols[0]
+	}
+	row = string(splitSymbol) + row + string(splitSymbol)
 	var symbolStack symbolStack
 	var res []string
 	var idxs []int
@@ -365,7 +369,7 @@ func CSVSplit(row string) []string {
 			symbol: row[i],
 			idx:    i,
 		}
-		if row[i] == ',' {
+		if row[i] == splitSymbol {
 			if _, ok := symbolStack.lastIdx['"']; ok {
 				goto MainLoop
 			}
@@ -381,7 +385,7 @@ func CSVSplit(row string) []string {
 		if i == len(row) {
 			idxs = append(idxs, i-1)
 			for j := 1; j < len(idxs); j++ {
-				res = append(res, strings.Trim(row[idxs[j-1]:idxs[j]], `", `))
+				res = append(res, strings.Trim(row[idxs[j-1]:idxs[j]], `" `+string(splitSymbol)))
 			}
 			break
 		}

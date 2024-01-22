@@ -361,6 +361,9 @@ func StructToMap(structPtr any) (res map[string]any, err error) {
 			res[strings.Split(key, ";")[0]] = value
 			delete(res, key)
 		}
+		if len(key) == 0 {
+			delete(res, key)
+		}
 	}
 	return
 }

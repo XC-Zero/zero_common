@@ -7,12 +7,18 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"strings"
 	"time"
 )
 
 func InitClient(config config.MysqlConfig) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		config.Username, config.Pass, config.Host, config.Port, config.DBName,
+	//dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	if strings.TrimSpace(config.TZ) == "" {
+		config.TZ = "UTC"
+	}
+	config.TZ = strings.ReplaceAll(config.TZ, "/", "%2F")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=%s",
+		config.Username, config.Pass, config.Host, config.Port, config.DBName, config.TZ,
 	)
 	open, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.LogLevel(config.LogMode)),

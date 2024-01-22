@@ -1,39 +1,36 @@
 package config
 
 import (
-	"flag"
 	"github.com/mitchellh/mapstructure"
-	"github.com/spf13/viper"
-	"sync"
 )
 
-var (
-	config      Config
-	once        sync.Once
-	configName  = flag.String("c", "config", "读入config文件")
-	configPath  = flag.String("p", "./configs", "config所在目录")
-	globalViper = viper.New()
-)
-
-// GetConfig 单例获取配置
-func GetConfig() Config {
-	once.Do(func() {
-		flag.Parse()
-		globalViper.SetConfigName(*configName)
-		globalViper.AutomaticEnv()
-		globalViper.AddConfigPath(*configPath)
-		globalViper.SetConfigType("toml")
-		if err := globalViper.ReadInConfig(); err != nil {
-			panic(err)
-		}
-
-		err := globalViper.Unmarshal(&config, setTagName)
-		if err != nil {
-			panic(err)
-		}
-	})
-	return config
-}
+//var (
+//	config      Config
+//	once        sync.Once
+//	configName  = flag.String("c", "config", "读入config文件")
+//	configPath  = flag.String("p", "./configs", "config所在目录")
+//	globalViper = viper.New()
+//)
+//
+//// GetConfig 单例获取配置
+//func GetConfig() Config {
+//	once.Do(func() {
+//		flag.Parse()
+//		globalViper.SetConfigName(*configName)
+//		globalViper.AutomaticEnv()
+//		globalViper.AddConfigPath(*configPath)
+//		globalViper.SetConfigType("toml")
+//		if err := globalViper.ReadInConfig(); err != nil {
+//			panic(err)
+//		}
+//
+//		err := globalViper.Unmarshal(&config, setTagName)
+//		if err != nil {
+//			panic(err)
+//		}
+//	})
+//	return config
+//}
 
 type Config struct {
 	Database Database      `json:"database"`

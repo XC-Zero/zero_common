@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ipmi:
+    restart: always
+    image: ipmi:v0.0.1
+    container_name: ipmi
+    volumes:
+      - ./configs:/xc_workspace/conf
+
+

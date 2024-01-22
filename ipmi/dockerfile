@@ -1,0 +1,5 @@
+FROM alpine
+MAINTAINER xiangchen
+WORKDIR /xc_workspace
+COPY ipmi .
+CMD ["./ipmi"]
