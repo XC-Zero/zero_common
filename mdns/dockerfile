@@ -1,0 +1,7 @@
+FROM alpine:latest
+MAINTAINER xiangchen
+WORKDIR /mdns
+COPY ./conf /mdns/conf
+COPY mdns .
+RUN chmod +x ./mdns
+CMD ["./mdns"]

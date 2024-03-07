@@ -12,6 +12,6 @@ services:
       - TZ=Asia/Shanghai
       - REDIS_PASSWORD="aGy&auD@05>0zH%P"
     volumes:
-      - /data/redis/data:/data
-      - /data/redis/conf/redis.conf:/etc/redis/redis.conf
-      - /data/redis/logs:/logs
+      - ./data/redis/data:/data
+      - ./data/redis/conf/redis.conf:/etc/redis/redis.conf
+      - ./data/redis/logs:/logs

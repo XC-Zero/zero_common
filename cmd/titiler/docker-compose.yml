@@ -1,0 +1,11 @@
+version: "3"
+services:
+  titiler:
+    image: ghcr.io/developmentseed/titiler:latest
+    container_name: titiler_test
+    privileged: true
+    ports:
+      - "28800:8000"
+    environment:
+      - PORT=8000
+      - WORKERS_PER_CORE=1

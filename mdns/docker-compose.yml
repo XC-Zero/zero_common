@@ -1,0 +1,9 @@
+version: '3'
+services:
+  mdns:
+    image: mdns:v0.0.1
+    restart: always
+    volumes:
+      - ./conf:/mdns/conf
+    network_mode: host
+

@@ -63,7 +63,7 @@ func (l LogLevel) String() string {
 	case INFO:
 		return "INFO"
 	case WARN:
-		return "WARM"
+		return "WARN"
 	case ERROR:
 		return "ERROR"
 	case FATAL:
