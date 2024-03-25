@@ -6,12 +6,16 @@ services:
     ports:
       - "9000:9000" # api 端口
       - "9001:9001" # 控制台端口
+#      - "8022:8022" # SFTP 端口
     environment:
       MINIO_ACCESS_KEY: admin    #管理后台用户名
       MINIO_SECRET_KEY: admin123 #管理后台密码，最小8个字符
     volumes:
-        - ./data:/data         #映射当前目录下的data目录至容器内/data目录
-        - ./config:/root/.minio/     #映射配置目录
+      - ./data:/data         #映射当前目录下的data目录至容器内/data目录
+      - ./config:/root/.minio/     #映射配置目录
+#      - /root/.ssh:/root/.ssh  #SFTP 本地私钥
     command: server --console-address ':9001' /data  #指定容器中的目录 /data
+    #command:  server /data --sftp="address=:8022" --sftp="ssh-private-key=/root/.ssh/id_rsa" --console-address ':9001' /data
+
     privileged: true
     restart: always

@@ -2,14 +2,17 @@ package main
 
 import (
 	"context"
+	"log"
+	"sync"
+	"time"
+
 	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
 	"github.com/XC-Zero/zero_common/config"
 	"github.com/XC-Zero/zero_common/influxdb"
 	"github.com/bougou/go-ipmi"
+	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
-	"log"
-	"sync"
-	"time"
+	"github.com/spf13/viper"
 )
 
 var once sync.Once
@@ -18,8 +21,9 @@ var ipmiClient *ipmi.Client
 func main() {
 	saveData()
 
-	ticker := time.NewTicker(time.Second * 5)
+	ticker := time.NewTicker(time.Second * 10)
 	for range ticker.C {
+		log.Println("Save Data!")
 		saveData()
 	}
 	select {}
@@ -43,17 +47,17 @@ func getData() []*influxdb3.Point {
 	}
 	var points []*influxdb3.Point
 	for i := range sensors {
-		switch sensors[i].SensorType {
-		case ipmi.SensorTypeFan, ipmi.SensorTypeCurrent, ipmi.SensorTypeOtherFRU,
-			ipmi.SensorTypeOtherUnitsbased, ipmi.SensorTypeTemperature, ipmi.SensorTypeVoltage:
-			now := time.Now()
-			points = append(points, influxdb3.NewPoint(sensors[i].Name, map[string]string{
-				"unit": sensors[i].SensorUnit.String(),
-			}, map[string]any{
-				"value": sensors[i].Value,
-			}, now))
+		//switch sensors[i].SensorType {
+		//case ipmi.SensorTypeFan, ipmi.SensorTypeCurrent, ipmi.SensorTypeOtherFRU, ipmi.SensorTypeSystemACPIPowerState,
+		//	ipmi.SensorTypeOtherUnitsbased, ipmi.SensorTypeTemperature, ipmi.SensorTypeVoltage:
+		now := time.Now()
+		points = append(points, influxdb3.NewPoint(sensors[i].Name, map[string]string{
+			"unit": sensors[i].SensorUnit.String(),
+		}, map[string]any{
+			"value": sensors[i].Value,
+		}, now))
 
-		}
+		//}
 
 	}
 	return points
@@ -69,14 +73,35 @@ func saveData() {
 
 var influxOnce sync.Once
 var client *influxdb3.Client
+var globalViper = viper.New()
+var con = struct {
+	Influxdb config.InfluxDBConfig `json:"influxdb"`
+}{}
 
 func GetInstance() *influxdb3.Client {
 	influxOnce.Do(func() {
-		influxClient, err := influxdb.InitInfluxClient(config.GetConfig().Database.InfluxDBConfig)
+		globalViper.SetConfigName("conf")
+		globalViper.AutomaticEnv()
+		globalViper.AddConfigPath("conf")
+		globalViper.SetConfigType("toml")
+		if err := globalViper.ReadInConfig(); err != nil {
+			panic(err)
+		}
+
+		err := globalViper.Unmarshal(&con, setTagName)
+		if err != nil {
+			panic(err)
+		}
+		influxClient, err := influxdb.InitInfluxClient(con.Influxdb)
 		if err != nil {
 			panic(err)
 		}
 		client = influxClient
 	})
 	return client
+}
+
+// 设置 config 对应的结构体的 tag
+func setTagName(d *mapstructure.DecoderConfig) {
+	d.TagName = "json"
 }
